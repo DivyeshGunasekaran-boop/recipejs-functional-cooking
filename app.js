@@ -15,13 +15,22 @@ const recipeContainer = document.querySelector('#recipe-container');
 const sortAlphaBtn = document.querySelector('#sort-alpha'); 
 const sortTimeBtn = document.querySelector('#sort-time');
 
+// --- NEW: Filter Button Selections ---
+const filterAllBtn = document.querySelector('#filter-all');
+const filterEasyBtn = document.querySelector('#filter-easy');
+const filterMediumBtn = document.querySelector('#filter-medium');
+const filterHardBtn = document.querySelector('#filter-hard');
+const filterQuickBtn = document.querySelector('#filter-quick');
+
 // Track current state
 let currentSort = 'none';
+let currentFilter = 'all'; // NEW: Track filter state
 
+// 3. Sorting and Filtering Functions
 const sortByTitle = (data) => [...data].sort((a, b) => a.title.localeCompare(b.title));
 const sortByTime = (data) => [...data].sort((a, b) => a.time - b.time);
 
-// 4. Create Recipe Card Function (Arrow Function)
+// 4. Create Recipe Card Function
 const createRecipeCard = (recipe) => {
     return `
         <div class="recipe-card" data-id="${recipe.id}">
@@ -35,15 +44,28 @@ const createRecipeCard = (recipe) => {
     `;
 };
 
-
+// 5. Render Function
 const renderRecipes = (recipeList) => {
     const recipeHTML = recipeList.map(recipe => createRecipeCard(recipe)).join('');
     recipeContainer.innerHTML = recipeHTML;
 };
 
+// 6. Update Display Logic (Combines Filtering and Sorting)
 const updateDisplay = () => {
     let result = [...recipes];
 
+    // --- NEW: Filter Logic ---
+    if (currentFilter === 'easy') {
+        result = result.filter(r => r.difficulty === 'easy');
+    } else if (currentFilter === 'medium') {
+        result = result.filter(r => r.difficulty === 'medium');
+    } else if (currentFilter === 'hard') {
+        result = result.filter(r => r.difficulty === 'hard');
+    } else if (currentFilter === 'quick') {
+        result = result.filter(r => r.time < 30);
+    }
+
+    // Sort Logic
     if (currentSort === 'alpha') {
         result = sortByTitle(result);
     } else if (currentSort === 'time') {
@@ -61,6 +83,32 @@ sortAlphaBtn.addEventListener('click', () => {
 
 sortTimeBtn.addEventListener('click', () => {
     currentSort = 'time';
+    updateDisplay();
+});
+
+// --- NEW: Event Listeners for Filter Buttons ---
+filterAllBtn.addEventListener('click', () => {
+    currentFilter = 'all';
+    updateDisplay();
+});
+
+filterEasyBtn.addEventListener('click', () => {
+    currentFilter = 'easy';
+    updateDisplay();
+});
+
+filterMediumBtn.addEventListener('click', () => {
+    currentFilter = 'medium';
+    updateDisplay();
+});
+
+filterHardBtn.addEventListener('click', () => {
+    currentFilter = 'hard';
+    updateDisplay();
+});
+
+filterQuickBtn.addEventListener('click', () => {
+    currentFilter = 'quick';
     updateDisplay();
 });
 
