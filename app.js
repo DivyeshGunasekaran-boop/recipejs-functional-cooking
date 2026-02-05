@@ -12,8 +12,16 @@ const recipes = [
 
 // 2. DOM Selection
 const recipeContainer = document.querySelector('#recipe-container');
+const sortAlphaBtn = document.querySelector('#sort-alpha'); 
+const sortTimeBtn = document.querySelector('#sort-time');
 
-// 3. Create Recipe Card Function (Arrow Function)
+// Track current state
+let currentSort = 'none';
+
+const sortByTitle = (data) => [...data].sort((a, b) => a.title.localeCompare(b.title));
+const sortByTime = (data) => [...data].sort((a, b) => a.time - b.time);
+
+// 4. Create Recipe Card Function (Arrow Function)
 const createRecipeCard = (recipe) => {
     return `
         <div class="recipe-card" data-id="${recipe.id}">
@@ -27,11 +35,34 @@ const createRecipeCard = (recipe) => {
     `;
 };
 
-// 4. Render Recipes Function
+
 const renderRecipes = (recipeList) => {
     const recipeHTML = recipeList.map(recipe => createRecipeCard(recipe)).join('');
     recipeContainer.innerHTML = recipeHTML;
 };
 
-// 5. Initialize the App
-renderRecipes(recipes);
+const updateDisplay = () => {
+    let result = [...recipes];
+
+    if (currentSort === 'alpha') {
+        result = sortByTitle(result);
+    } else if (currentSort === 'time') {
+        result = sortByTime(result);
+    }
+
+    renderRecipes(result);
+};
+
+// 7. Event Listeners for Sorting Buttons
+sortAlphaBtn.addEventListener('click', () => {
+    currentSort = 'alpha';
+    updateDisplay();
+});
+
+sortTimeBtn.addEventListener('click', () => {
+    currentSort = 'time';
+    updateDisplay();
+});
+
+// 8. Initialize the App
+updateDisplay();
