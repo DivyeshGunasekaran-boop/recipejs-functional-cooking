@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RecipeJS - Your Functional Cooking Companion</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <header>
+        <h1>RecipeJS</h1>
+        <p>Your Functional Cooking Companion</p>
+    </header>
+
+    <main>
+        <div class="controls-container">
+            <div class="top-row">
+                <input type="text" id="search-bar" placeholder="Search recipes..." />
+                <label class="fav-toggle">
+                    <input type="checkbox" id="show-favorites-btn"> 
+                    <span>Show Favorites Only ❤️</span>
+                </label>
+            </div>
+
+            <hr class="divider">
+
+            <div class="bottom-row">
+                <div class="group">
+                    <span class="label">Sort By:</span>
+                    <button id="sort-alpha">A-Z</button>
+                    <button id="sort-time">Time</button>
+                </div>
+
+                <div class="group">
+                    <span class="label">Filter By:</span>
+                    <button id="filter-all" class="active">All Recipes</button>
+                    <button id="filter-easy">Easy</button>
+                    <button id="filter-medium">Medium</button>
+                    <button id="filter-hard">Hard</button>
+                    <button id="filter-quick">Quick (< 30m)</button>
+                </div>
+            </div>
+            
+            <div id="recipe-count">Showing all recipes</div>
+        </div>
+
+        <div id="recipe-container"></div>
+    </main>
+
+    <script src="app.js"></script>
+</body>
+</html>
