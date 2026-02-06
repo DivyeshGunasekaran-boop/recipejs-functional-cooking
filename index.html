@@ -14,27 +14,39 @@
     </header>
 
     <main>
-    <div class="controls">
-    <div class="sort-group">
-        <h4>Sort By:</h4>
-        <button id="sort-alpha">A-Z</button>
-        <button id="sort-time">Time</button>
-    </div>
+        <div class="controls-container">
+            <div class="top-row">
+                <input type="text" id="search-bar" placeholder="Search recipes..." />
+                <label class="fav-toggle">
+                    <input type="checkbox" id="show-favorites-btn"> 
+                    <span>Show Favorites Only ❤️</span>
+                </label>
+            </div>
 
-    <hr>
+            <hr class="divider">
 
-    <div class="filter-group">
-        <h4>Filter By:</h4>
-        <button id="filter-all">All Recipes</button>
-        <button id="filter-easy">Easy</button>
-        <button id="filter-medium">Medium</button>
-        <button id="filter-hard">Hard</button>
-        <button id="filter-quick">Quick (Under 30m)</button>
-    </div>
-</div>
+            <div class="bottom-row">
+                <div class="group">
+                    <span class="label">Sort By:</span>
+                    <button id="sort-alpha">A-Z</button>
+                    <button id="sort-time">Time</button>
+                </div>
 
-<div id="recipe-container"></div>
+                <div class="group">
+                    <span class="label">Filter By:</span>
+                    <button id="filter-all" class="active">All Recipes</button>
+                    <button id="filter-easy">Easy</button>
+                    <button id="filter-medium">Medium</button>
+                    <button id="filter-hard">Hard</button>
+                    <button id="filter-quick">Quick (< 30m)</button>
+                </div>
+            </div>
             
+            <div id="recipe-count">Showing all recipes</div>
+        </div>
+
+        <div id="recipe-container"></div>
+    </main>
 
     <script src="app.js"></script>
 </body>

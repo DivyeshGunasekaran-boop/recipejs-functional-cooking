@@ -1,279 +1,199 @@
-const RecipeApp = (function() {
-    
+(() => {
+    // --- DATA ---
     const recipes = [
         { 
-            id: 1, 
-            title: "Spaghetti Carbonara", 
-            time: 20, 
-            difficulty: "easy", 
-            description: "A classic Italian pasta dish with eggs, cheese, and pancetta.", 
-            category: "pasta",
-            ingredients: ["Spaghetti", "2 Eggs", "Pancetta", "Parmesan Cheese", "Black Pepper"],
-            steps: [
-                { text: "Boil a large pot of salted water." },
-                { text: "Cook the spaghetti until al dente." },
-                { 
-                    text: "Prepare the sauce (The Tricky Part):", 
-                    subSteps: [
-                        { text: "Whisk eggs in a bowl." },
-                        { text: "Mix in grated parmesan and freshly cracked pepper." }
-                    ]
-                },
-                { text: "Fry pancetta until crisp, then toss with pasta and sauce." }
-            ]
+            id: 1, title: "Spaghetti Carbonara", difficulty: "Easy", time: 20, 
+            description: "A classic Italian pasta dish with eggs, cheese, and pancetta.",
+            ingredients: ["Pasta", "Eggs", "Pancetta", "Parmesan", "Pepper"],
+            steps: ["Boil pasta.", "Fry pancetta.", "Mix eggs and cheese.", "Combine."]
         },
         { 
-            id: 2, 
-            title: "Chicken Tikka Masala", 
-            time: 45, 
-            difficulty: "medium", 
-            description: "Roasted marinated chicken chunks in a spiced sauce.", 
-            category: "curry",
-            ingredients: ["Chicken Breast", "Yogurt", "Spices (Cumin, Coriander)", "Tomato Puree", "Cream"],
-            steps: [
-                { text: "Marinate chicken in yogurt and spices for 30 mins." },
-                { text: "Grill chicken pieces until cooked." },
-                { text: "Simmer tomato sauce with spices and add cream." },
-                { text: "Combine chicken with sauce and serve." }
-            ]
+            id: 2, title: "Chicken Tikka Masala", difficulty: "Medium", time: 45, 
+            description: "Roasted marinated chicken chunks in a spiced sauce.",
+            ingredients: ["Chicken", "Yogurt", "Spices", "Tomato Sauce"],
+            steps: ["Marinate.", "Grill.", "Simmer in sauce."]
         },
         { 
-            id: 3, 
-            title: "Garden Salad", 
-            time: 10, 
-            difficulty: "easy", 
-            description: "Fresh greens with a light balsamic vinaigrette.", 
-            category: "salad",
-            ingredients: ["Lettuce", "Tomatoes", "Cucumber", "Olive Oil", "Balsamic Vinegar"],
-            steps: [
-                { text: "Chop all vegetables." },
-                { text: "Whisk oil and vinegar together." },
-                { text: "Toss vegetables with dressing." }
-            ]
+            id: 3, title: "Garden Salad", difficulty: "Easy", time: 10, 
+            description: "Fresh greens with a light balsamic vinaigrette.",
+            ingredients: ["Lettuce", "Tomato", "Cucumber", "Vinaigrette"],
+            steps: ["Chop veggies.", "Whisk dressing.", "Toss."]
         },
         { 
-            id: 4, 
-            title: "Beef Wellington", 
-            time: 90, 
-            difficulty: "hard", 
-            description: "Beef fillet wrapped in puff pastry with mushroom duxelles.", 
-            category: "meat",
-            ingredients: ["Beef Fillet", "Puff Pastry", "Mushrooms", "Prosciutto", "Egg Wash"],
-            steps: [
-                { text: "Sear the beef fillet on all sides." },
-                { 
-                    text: "Prepare the Mushroom Duxelles:", 
-                    subSteps: [
-                        { text: "Finely chop mushrooms." },
-                        { text: "Fry in pan until all moisture evaporates." }
-                    ] 
-                },
-                { text: "Wrap beef in prosciutto and mushroom mixture." },
-                { text: "Wrap in puff pastry and bake until golden." }
-            ]
+            id: 4, title: "Beef Wellington", difficulty: "Hard", time: 90, 
+            description: "Beef fillet wrapped in puff pastry with mushroom duxelles.",
+            ingredients: ["Beef", "Mushrooms", "Puff Pastry", "Prosciutto"],
+            steps: ["Sear beef.", "Prep mushrooms.", "Wrap.", "Bake."]
         },
         { 
-            id: 5, 
-            title: "Vegetable Stir Fry", 
-            time: 15, 
-            difficulty: "easy", 
-            description: "Quick and healthy veggies sautéed in ginger and soy.", 
-            category: "vegetarian",
-            ingredients: ["Broccoli", "Carrots", "Soy Sauce", "Ginger", "Garlic"],
-            steps: [
-                { text: "Heat oil in a wok." },
-                { text: "Stir fry ginger and garlic." },
-                { text: "Add vegetables and soy sauce, cook until tender." }
-            ]
+            id: 5, title: "Vegetable Stir Fry", difficulty: "Easy", time: 15, 
+            description: "Quick and healthy veggies sautéed in ginger and soy.",
+            ingredients: ["Broccoli", "Carrots", "Soy Sauce", "Ginger"],
+            steps: ["Heat oil.", "Stir fry veggies.", "Add sauce."]
         },
         { 
-            id: 6, 
-            title: "Chocolate Soufflé", 
-            time: 40, 
-            difficulty: "hard", 
-            description: "A light, airy French dessert that is a true test of timing.", 
-            category: "dessert",
-            ingredients: ["Dark Chocolate", "Butter", "Sugar", "Eggs"],
-            steps: [
-                { text: "Melt chocolate and butter." },
-                { text: "Separate egg whites and yolks." },
-                { text: "Whip egg whites until stiff peaks form." },
-                { text: "Fold whites into chocolate mixture and bake." }
-            ]
+            id: 6, title: "Chocolate Soufflé", difficulty: "Hard", time: 40, 
+            description: "A light, airy French dessert that is a true test of timing.",
+            ingredients: ["Chocolate", "Eggs", "Sugar", "Butter"],
+            steps: ["Melt chocolate.", "Whip egg whites.", "Fold.", "Bake."]
         },
         { 
-            id: 7, 
-            title: "Classic Cheeseburger", 
-            time: 25, 
-            difficulty: "medium", 
-            description: "Juicy beef patty with melted cheddar on a brioche bun.", 
-            category: "meat",
-            ingredients: ["Ground Beef", "Cheddar Slice", "Brioche Bun", "Lettuce", "Tomato"],
-            steps: [
-                { text: "Form beef into patties." },
-                { text: "Grill patty for 4 mins per side." },
-                { text: "Add cheese in the last minute to melt." },
-                { text: "Assemble burger with toppings." }
-            ]
+            id: 7, title: "Classic Cheeseburger", difficulty: "Medium", time: 25, 
+            description: "Juicy beef patty with melted cheddar on a brioche bun.",
+            ingredients: ["Beef Patty", "Cheddar", "Bun", "Lettuce"],
+            steps: ["Grill patty.", "Toast bun.", "Assemble."]
         },
         { 
-            id: 8, 
-            title: "Lentil Soup", 
-            time: 35, 
-            difficulty: "easy", 
-            description: "Hearty and warming soup packed with protein.", 
-            category: "soup",
-            ingredients: ["Lentils", "Carrots", "Celery", "Vegetable Broth", "Onion"],
-            steps: [
-                { text: "Sauté onions, carrots, and celery." },
-                { text: "Add lentils and broth." },
-                { text: "Simmer for 30 minutes until lentils are soft." }
-            ]
+            id: 8, title: "Lentil Soup", difficulty: "Easy", time: 35, 
+            description: "Hearty and warming soup packed with protein.",
+            ingredients: ["Lentils", "Carrots", "Onion", "Broth"],
+            steps: ["Sauté aromatics.", "Add lentils/broth.", "Simmer."]
         }
     ];
 
-    const recipeContainer = document.querySelector('#recipe-container');
-    const sortAlphaBtn = document.querySelector('#sort-alpha'); 
-    const sortTimeBtn = document.querySelector('#sort-time');
-
-    const filterAllBtn = document.querySelector('#filter-all');
-    const filterEasyBtn = document.querySelector('#filter-easy');
-    const filterMediumBtn = document.querySelector('#filter-medium');
-    const filterHardBtn = document.querySelector('#filter-hard');
-    const filterQuickBtn = document.querySelector('#filter-quick');
-
-    // Track current state
-    let currentSort = 'none';
+    // --- STATE ---
+    let favorites = JSON.parse(localStorage.getItem('recipeFavorites')) || [];
     let currentFilter = 'all';
+    let currentSort = null; 
+    let searchQuery = '';
+    let showFavoritesOnly = false;
 
-    const sortByTitle = (data) => [...data].sort((a, b) => a.title.localeCompare(b.title));
-    const sortByTime = (data) => [...data].sort((a, b) => a.time - b.time);
+    // --- DOM ---
+    const container = document.getElementById('recipe-container');
+    const countDisplay = document.getElementById('recipe-count');
+    const searchInput = document.getElementById('search-bar');
+    const favToggle = document.getElementById('show-favorites-btn');
+    const sortAlpha = document.getElementById('sort-alpha');
+    const sortTime = document.getElementById('sort-time');
+    const filterBtns = document.querySelectorAll('.group button[id^="filter-"]');
 
-    const renderSteps = (steps) => {
-        if (!steps || steps.length === 0) return '';
+    // --- FUNCTIONS ---
+    function debounce(func, delay) {
+        let timeout;
+        return (...args) => {
+            clearTimeout(timeout);
+            timeout = setTimeout(() => func.apply(this, args), delay);
+        };
+    }
+
+    function getRecipes() {
+        let result = recipes.filter(r => {
+            // Filter Logic
+            let matchFilter = true;
+            if (currentFilter === 'easy') matchFilter = r.difficulty === 'Easy';
+            else if (currentFilter === 'medium') matchFilter = r.difficulty === 'Medium';
+            else if (currentFilter === 'hard') matchFilter = r.difficulty === 'Hard';
+            else if (currentFilter === 'quick') matchFilter = r.time < 30;
+
+            // Search Logic
+            const term = searchQuery.toLowerCase();
+            const matchSearch = r.title.toLowerCase().includes(term) || 
+                                r.ingredients.some(i => i.toLowerCase().includes(term));
+            
+            // Favorites Logic
+            const matchFav = showFavoritesOnly ? favorites.includes(r.id) : true;
+
+            return matchFilter && matchSearch && matchFav;
+        });
+
+        // Sort Logic
+        if (currentSort === 'alpha') result.sort((a, b) => a.title.localeCompare(b.title));
+        else if (currentSort === 'time') result.sort((a, b) => a.time - b.time);
+
+        return result;
+    }
+
+    function render() {
+        container.innerHTML = '';
+        const data = getRecipes();
         
-        let html = '<ul class="steps-list">';
-        steps.forEach(step => {
-            html += `<li>${step.text}`;
-            // RECURSION: Check for nested steps
-            if (step.subSteps && step.subSteps.length > 0) {
-                html += renderSteps(step.subSteps);
-            }
-            html += `</li>`;
-        });
-        html += '</ul>';
-        return html;
-    };
+        countDisplay.textContent = `Showing ${data.length} of ${recipes.length} recipes`;
 
-    const renderIngredients = (ingredients) => {
-        if (!ingredients) return '';
-        return `<ul>${ingredients.map(ing => `<li>${ing}</li>`).join('')}</ul>`;
-    };
+        if (data.length === 0) {
+            container.innerHTML = `<p style="text-align:center; color:white; width:100%;">No recipes found.</p>`;
+            return;
+        }
 
-    const createRecipeCard = (recipe) => {
-        return `
-            <div class="recipe-card" data-id="${recipe.id}">
-                <h3>${recipe.title}</h3>
-                <div class="recipe-meta">
-                    <span>${recipe.time} min</span>
-                    <span class="difficulty ${recipe.difficulty}">${recipe.difficulty}</span>
+        data.forEach(r => {
+            const isFav = favorites.includes(r.id);
+            const card = document.createElement('div');
+            card.className = 'recipe-card';
+            
+            card.innerHTML = `
+                <div class="card-header">
+                    <h3>${r.title}</h3>
+                    <button class="heart-btn" data-id="${r.id}">
+                        ${isFav ? '❤️' : '🤍'}
+                    </button>
                 </div>
-                <p>${recipe.description}</p>
                 
-                <button class="toggle-btn" onclick="RecipeApp.toggleDetails(${recipe.id}, 'ing')">Ingredients</button>
-                <button class="toggle-btn" onclick="RecipeApp.toggleDetails(${recipe.id}, 'steps')">Show Steps</button>
+                <div class="meta-row">
+                    <span>${r.time} min</span>
+                    <span class="badge ${r.difficulty.toLowerCase()}">${r.difficulty}</span>
+                </div>
                 
-                <div id="ing-${recipe.id}" class="details hidden">
-                    <h4>Ingredients:</h4>
-                    ${renderIngredients(recipe.ingredients)}
+                <p class="description">${r.description}</p>
+                
+                <button class="action-btn toggle-ing">Ingredients</button>
+                <div class="details-box hidden">
+                    <strong>Ingredients:</strong> ${r.ingredients.join(', ')}
                 </div>
 
-                <div id="steps-${recipe.id}" class="details hidden">
-                    <h4>Instructions:</h4>
-                    ${renderSteps(recipe.steps)} </div>
-            </div>
-        `;
-    };
+                <button class="action-btn toggle-steps">Show Steps</button>
+                <div class="details-box hidden">
+                    <strong>Steps:</strong> ${r.steps.join(' -> ')}
+                </div>
+            `;
+            container.appendChild(card);
+        });
+    }
 
-    const renderRecipes = (recipeList) => {
-        const recipeHTML = recipeList.map(recipe => createRecipeCard(recipe)).join('');
-        recipeContainer.innerHTML = recipeHTML;
-    };
+    function toggleFavorite(id) {
+        if (favorites.includes(id)) favorites = favorites.filter(fid => fid !== id);
+        else favorites.push(id);
+        
+        localStorage.setItem('recipeFavorites', JSON.stringify(favorites));
+        render();
+    }
 
-    const updateDisplay = () => {
-        let result = [...recipes];
+    // --- EVENTS ---
+    searchInput.addEventListener('input', debounce((e) => {
+        searchQuery = e.target.value;
+        render();
+    }, 300));
 
-        if (currentFilter === 'easy') {
-            result = result.filter(r => r.difficulty === 'easy');
-        } else if (currentFilter === 'medium') {
-            result = result.filter(r => r.difficulty === 'medium');
-        } else if (currentFilter === 'hard') {
-            result = result.filter(r => r.difficulty === 'hard');
-        } else if (currentFilter === 'quick') {
-            result = result.filter(r => r.time < 30);
+    favToggle.addEventListener('change', (e) => {
+        showFavoritesOnly = e.target.checked;
+        render();
+    });
+
+    sortAlpha.addEventListener('click', () => { currentSort = 'alpha'; render(); });
+    sortTime.addEventListener('click', () => { currentSort = 'time'; render(); });
+
+    filterBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            filterBtns.forEach(b => b.classList.remove('active'));
+            e.target.classList.add('active');
+            
+            if (e.target.id === 'filter-easy') currentFilter = 'easy';
+            else if (e.target.id === 'filter-medium') currentFilter = 'medium';
+            else if (e.target.id === 'filter-hard') currentFilter = 'hard';
+            else if (e.target.id === 'filter-quick') currentFilter = 'quick';
+            else currentFilter = 'all';
+            
+            render();
+        });
+    });
+
+    container.addEventListener('click', (e) => {
+        if (e.target.closest('.heart-btn')) {
+            toggleFavorite(parseInt(e.target.closest('.heart-btn').dataset.id));
         }
-
-
-        if (currentSort === 'alpha') {
-            result = sortByTitle(result);
-        } else if (currentSort === 'time') {
-            result = sortByTime(result);
+        if (e.target.classList.contains('action-btn')) {
+            e.target.nextElementSibling.classList.toggle('hidden');
         }
+    });
 
-        renderRecipes(result);
-    };
-
-    const setupEventListeners = () => {
-        sortAlphaBtn.addEventListener('click', () => {
-            currentSort = 'alpha';
-            updateDisplay();
-        });
-
-        sortTimeBtn.addEventListener('click', () => {
-            currentSort = 'time';
-            updateDisplay();
-        });
-
-        filterAllBtn.addEventListener('click', () => {
-            currentFilter = 'all';
-            updateDisplay();
-        });
-
-        filterEasyBtn.addEventListener('click', () => {
-            currentFilter = 'easy';
-            updateDisplay();
-        });
-
-        filterMediumBtn.addEventListener('click', () => {
-            currentFilter = 'medium';
-            updateDisplay();
-        });
-
-        filterHardBtn.addEventListener('click', () => {
-            currentFilter = 'hard';
-            updateDisplay();
-        });
-
-        filterQuickBtn.addEventListener('click', () => {
-            currentFilter = 'quick';
-            updateDisplay();
-        });
-    };
-
-    return {
-        init: () => {
-            setupEventListeners();
-            updateDisplay();
-        },
-        toggleDetails: (id, type) => {
-            const element = document.getElementById(`${type}-${id}`);
-            if (element) {
-                element.classList.toggle('hidden');
-            }
-        }
-    };
-
+    // Init
+    render();
 })();
-
-
-document.addEventListener('DOMContentLoaded', RecipeApp.init);
